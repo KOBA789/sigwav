@@ -222,12 +222,13 @@ var spec = $.spectrum.getContext('2d'),
 
 var actx = new AudioContext();
 var music = actx.createBufferSource();
-var lpf = actx.createBiquadFilter();
-lpf.type = 'lowpass';
-lpf.Q.value = 12;
-var hpf = actx.createBiquadFilter();
-hpf.type = 'highpass';
-hpf.Q.value = 12;
+//var lpf = actx.createBiquadFilter();
+//lpf.type = 'lowpass';
+//lpf.Q.value = 12;
+//var hpf = actx.createBiquadFilter();
+//hpf.type = 'highpass';
+//hpf.Q.value = 12;
+/*
 $.spectrum.addEventListener('mousemove', function (e) {
   if (e.offsetX < 1920/2) {
     lpf.frequency.value = (e.offsetX/1920) * 44100;
@@ -237,6 +238,7 @@ $.spectrum.addEventListener('mousemove', function (e) {
     hpf.frequency.value = (e.offsetX/1920-0.5)*2 * 12000;
   }
 });
+*/
 $.spectrum.addEventListener('click', function () {
   if ($.spectrum.requestFullScreen) {
     $.spectrum.requestFullScreen();
@@ -249,10 +251,15 @@ $.spectrum.addEventListener('click', function () {
 var analyser = actx.createAnalyser();
 analyser.fftSize = 2048;
 
+music.connect(actx.destination);
+music.connect(analyser);
+
+/*
 music.connect(lpf);
 lpf.connect(hpf);
 hpf.connect(actx.destination);
 hpf.connect(analyser);
+*/
 
 getDroppedFile($.spectrum).then(function (result) {
   return decodeBuffer(actx, result);
